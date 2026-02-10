@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 class Court extends Model
@@ -24,5 +26,10 @@ class Court extends Model
   public function priceRules()
   {
     return $this->hasMany(CourtPriceRule::class);
+  }
+
+  public function units()
+  {
+    return $this->hasMany(CourtUnit::class);
   }
 }

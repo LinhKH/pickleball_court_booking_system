@@ -26,8 +26,10 @@ class DatabaseSeeder extends Seeder
       RoleSeeder::class,
       UserSeeder::class,
       CourtSeeder::class,
-      CourtPriceRuleSeeder::class,
       CourtSlotSeeder::class,
+      CourtUnitSeeder::class,
+      CourtUnitSlotSeeder::class,
+      CourtPriceRuleSeeder::class,
     ]);
   }
 }
