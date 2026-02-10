@@ -19,3 +19,8 @@ Route::middleware('auth:sanctum')->group(function () {
   // Create booking
   Route::post('/bookings', [BookingController::class, 'store']);
 });
+
+Route::get('/courts/{court}/slots', [
+  \App\Interfaces\Http\Controllers\SlotController::class,
+  'index'
+]);

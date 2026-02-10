@@ -38,4 +38,9 @@ class SlotLocker
   {
     return "slot_lock:{$courtId}:{$slotId}";
   }
+
+  public function isLocked(int $courtId, int $slotId): bool
+  {
+    return Redis::exists($this->key($courtId, $slotId)) === 1;
+  }
 }

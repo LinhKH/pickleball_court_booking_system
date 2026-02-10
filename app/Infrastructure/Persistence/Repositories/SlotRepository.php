@@ -17,4 +17,12 @@ class SlotRepository
       SlotStatus::from($slot->status)
     );
   }
+
+  public function getByCourtAndDate(int $courtId, string $date)
+  {
+    return CourtSlot::where('court_id', $courtId)
+      ->where('date', $date)
+      ->orderBy('start_time')
+      ->get();
+  }
 }
