@@ -1,4 +1,124 @@
-echo "hello" > TEST_PHASE0.txt
-git add TEST_PHASE0.txt
-git commit -m "test github visibility"
-git push
+2️⃣ LAYERED ARCHITECTURE (DDD-LITE ĐÚNG)
+
+app/
+ ├── Domain/          ← NGHIỆP VỤ THUẦN
+ ├── Application/     ← USE CASE
+ ├── Infrastructure/  ← DB / Redis / API ngoài
+ └── Interfaces/      ← Controller / HTTP
+
+3️⃣ TRÁCH NHIỆM TỪNG LAYER (RẤT QUAN TRỌNG)
+
+🟢 Domain Layer (KHÔNG BIẾT DB)
+Domain/
+ ├── Booking/
+ │    ├── Booking.php            (Entity)
+ │    ├── BookingStatus.php      (Enum)
+ │    ├── BookingPolicy.php      (Rule)
+ │
+ ├── Pricing/
+ │    ├── PriceRule.php          (Domain Model)
+ │    ├── PricingCalculator.php  (Domain Service)
+ │
+ └── Availability/
+      ├── Slot.php
+      ├── SlotPolicy.php
+
+
+Domain CHỈ:
+
+Validate rule
+
+Ra quyết định nghiệp vụ
+
+Throw domain exception
+
+❌ Không query DB
+❌ Không biết Eloquent
+🟡 Application Layer (ORCHESTRATION)
+Application/
+ ├── Booking/
+ │    ├── CreateBooking.php
+ │    ├── CancelBooking.php
+ │    ├── CompleteBooking.php
+ │
+ ├── Pricing/
+ │    └── CalculateSlotPrice.php
+ │
+ └── Availability/
+      └── HoldSlot.php
+
+
+Application:
+
+Gọi Repository
+
+Chuyển data → Domain object
+
+Điều phối flow
+
+👉 Đây là nơi Booking Core sống
+
+🔵 Infrastructure Layer (HẠ TẦNG)
+Infrastructure/
+ ├── Persistence/
+ │    └── Repositories/
+ │         ├── BookingRepository.php
+ │         ├── SlotRepository.php
+ │         └── PriceRuleRepository.php
+ │
+ ├── Redis/
+ │    └── SlotLocker.php
+ │
+ └── Payment/
+      └── VnPayGateway.php
+
+
+👉 Eloquent / Redis / API ngoài chỉ ở đây
+
+🟣 Interfaces (HTTP)
+Interfaces/
+ └── Http/
+      └── Controllers/
+           └── BookingController.php
+
+
+Controller:
+
+Validate request
+
+Call Use Case
+
+Return response
+
+❌ Không logic
+❌ Không query
+
+4️⃣ FLOW THỰC TẾ: ĐẶT SÂN (END-TO-END)
+🧠 Flow đúng theo DDD-lite
+[HTTP Request]
+      │
+      ▼
+BookingController
+      │
+      ▼
+CreateBooking (Application Use Case)
+      │
+      ├─▶ SlotRepository → check availability
+      │
+      ├─▶ SlotLocker (Redis) → hold slot
+      │
+      ├─▶ PriceRuleRepository → load rules
+      │
+      ├─▶ PricingCalculator (Domain) → tính giá
+      │
+      ├─▶ Booking (Domain Entity) → validate
+      │
+      ▼
+BookingRepository → save
+      │
+      ▼
+[Response]
+
+
+👉 Booking entity không biết Redis, DB, API
+👉 Pricing không biết Slot đến từ đâu
