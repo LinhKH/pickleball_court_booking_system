@@ -2,18 +2,16 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-class CourtSlot extends Model
+class CourtPriceRule extends Model
 {
   protected $fillable = [
     'court_id',
-    'date',
+    'day_of_week',
     'start_time',
     'end_time',
-    'status',
+    'price_per_hour',
+    'rule_type',
+    'priority',
+    'is_active',
   ];
-
-  public function court()
-  {
-    return $this->belongsTo(Court::class);
-  }
 }

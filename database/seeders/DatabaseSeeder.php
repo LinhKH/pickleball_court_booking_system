@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use RoleSeeder;
+use Database\Seeders\{RoleSeeder, UserSeeder, CourtSeeder, CourtPriceRuleSeeder, CourtSlotSeeder};
 
 class DatabaseSeeder extends Seeder
 {
