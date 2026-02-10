@@ -25,8 +25,9 @@ final class HoldSlot
 
     // Redis lock
     $locked = $this->locker->lock(
-      $command->courtId,
-      $command->slotId,
+      $command->courtUnitId,
+      $command->date,
+      $command->startTime,
       $command->userId
     );
 

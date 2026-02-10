@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Interfaces\Http\Controllers\BookingController;
 use App\Interfaces\Http\Controllers\AvailabilityController;
+use App\Interfaces\Http\Controllers\SlotController;
 
 Route::get('/user', function (Request $request) {
   return $request->user();
@@ -20,7 +21,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::post('/bookings', [BookingController::class, 'store']);
 });
 
-Route::get('/courts/{court}/slots', [
-  \App\Interfaces\Http\Controllers\SlotController::class,
-  'index'
-]);
+Route::get('/courts/{court}/slots', [SlotController::class, 'index']);
+
+Route::get('/courts/{court}/availability', [AvailabilityController::class, 'index']);

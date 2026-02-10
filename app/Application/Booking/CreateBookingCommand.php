@@ -7,6 +7,9 @@ final class CreateBookingCommand
   public function __construct(
     public readonly int $userId,
     public readonly int $courtId,
-    public readonly array $slots // [{ slot_id, price }]
+    public readonly int $courtUnitId,
+    public readonly string $date,
+    public readonly array $slots // [{ start_time, price }]
+    
   ) {}
 }

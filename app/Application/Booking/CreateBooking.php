@@ -26,8 +26,9 @@ final class CreateBooking
     // 1️⃣ verify all slots are locked by user
     foreach ($command->slots as $slot) {
       $locked = $this->locker->isLockedBy(
-        $command->courtId,
-        $slot['slot_id'],
+        $command->courtUnitId,
+        $command->date,
+        $slot['start_time'],
         $command->userId
       );
 
@@ -37,7 +38,8 @@ final class CreateBooking
     // 2️⃣ create domain booking
     $booking = new Booking(
       $command->userId,
-      $command->courtId
+      $command->courtId,
+      $command->courtUnitId
     );
 
     foreach ($command->slots as $slot) {

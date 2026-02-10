@@ -9,7 +9,8 @@ final class Booking
 
   public function __construct(
     private int $userId,
-    private int $courtId
+    private int $courtId,
+    private int $courtUnitId
   ) {
     $this->status = BookingStatus::Pending;
   }
@@ -60,5 +61,10 @@ final class Booking
   public function courtId(): int
   {
     return $this->courtId;
+  }
+
+  public function courtUnitId(): int
+  {
+    return $this->courtUnitId;
   }
 }

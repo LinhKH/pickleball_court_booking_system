@@ -15,6 +15,7 @@ return new class extends Migration
       $table->id();
       $table->foreignId('user_id')->constrained();
       $table->foreignId('court_id')->constrained();
+      $table->foreignId('court_unit_id')->constrained()->cascadeOnDelete();
       $table->decimal('total_price', 10, 2);
       $table->enum('status', [
         'pending',

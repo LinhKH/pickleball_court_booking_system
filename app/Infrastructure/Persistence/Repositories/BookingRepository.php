@@ -11,10 +11,11 @@ class BookingRepository
   public function save(Booking $booking): BookingModel
   {
     return BookingModel::create([
-      'user_id'     => $booking->userId(),
-      'court_id'    => $booking->courtId(),
-      'total_price' => $booking->totalPrice(),
-      'status'      => $booking->status()->value,
+      'user_id'       => $booking->userId(),
+      'court_id'      => $booking->courtId(),
+      'court_unit_id' => $booking->courtUnitId(),
+      'total_price'   => $booking->totalPrice(),
+      'status'        => $booking->status()->value,
     ]);
   }
 }

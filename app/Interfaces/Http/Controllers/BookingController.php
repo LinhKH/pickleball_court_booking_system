@@ -24,6 +24,8 @@ class BookingController extends Controller
       new CreateBookingCommand(
         userId: $request->user()->id,
         courtId: $request->court_id,
+        courtUnitId: $request->court_unit_id,
+        date: $request->date,
         slots: $request->slots
       )
     );
