@@ -20,13 +20,8 @@ class CalculateSlotPrice
     private PricingCalculator $calculator
   ) {}
 
-  public function execute(
-    int $courtId,
-    string $date,
-    string $start,
-    string $end
-  ): array {
-    $rules = $this->priceRuleRepo->getByCourt($courtId);
+  public function execute(CalculateSlotPriceCommand $command): array {
+    $rules = $this->priceRuleRepo->getByCourt($command->courtId);
 
     // $domainRules = array_map(
     //   fn($rule) => new PriceRule(
@@ -54,9 +49,9 @@ class CalculateSlotPrice
 
     $matchedRule = $this->calculator->calculate(
       $domainRules,
-      $date,
-      $start,
-      $end
+      $command->date,
+      $command->slotStart,
+      $command->slotEnd
     );
 
     return [
