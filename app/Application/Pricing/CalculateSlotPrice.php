@@ -21,7 +21,7 @@ class CalculateSlotPrice
   ) {}
 
   public function execute(CalculateSlotPriceCommand $command): array {
-    $rules = $this->priceRuleRepo->getByCourt($command->courtId);
+    $rules = $this->priceRuleRepo->getByCourt((int) $command->courtId);
 
     // $domainRules = array_map(
     //   fn($rule) => new PriceRule(

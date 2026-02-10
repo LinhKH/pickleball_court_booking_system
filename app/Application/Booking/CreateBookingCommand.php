@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Application\Booking;
+
+final class CreateBookingCommand
+{
+  public function __construct(
+    public readonly int $userId,
+    public readonly int $courtId,
+    public readonly array $slots // [{ slot_id, price }]
+  ) {}
+}
