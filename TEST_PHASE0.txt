@@ -1,0 +1,4 @@
+echo "hello" > TEST_PHASE0.txt
+git add TEST_PHASE0.txt
+git commit -m "test github visibility"
+git push
