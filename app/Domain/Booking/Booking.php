@@ -2,6 +2,7 @@
 
 namespace App\Domain\Booking;
 
+// Domain Entity
 final class Booking
 {
   private BookingStatus $status;
@@ -31,6 +32,15 @@ final class Booking
     }
 
     $this->status = BookingStatus::Paid;
+  }
+
+  public function expire(): void
+  {
+    if ($this->status !== BookingStatus::Pending) {
+      return;
+    }
+
+    $this->status = BookingStatus::Expired;
   }
 
   public function cancel(): void
