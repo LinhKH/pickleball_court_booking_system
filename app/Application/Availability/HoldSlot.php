@@ -18,12 +18,6 @@ final class HoldSlot
 
   public function execute(HoldSlotCommand $command): void
   {
-    $slot = $this->slotRepo->find($command->slotId);
-
-    // Domain rule
-    $this->policy->ensureBookable($slot);
-
-    // Redis lock
     $locked = $this->locker->lock(
       $command->courtUnitId,
       $command->date,

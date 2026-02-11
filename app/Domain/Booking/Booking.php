@@ -5,6 +5,7 @@ namespace App\Domain\Booking;
 // Domain Entity
 final class Booking
 {
+  private ?int $id = null;
   private BookingStatus $status;
   private int $totalPrice = 0;
 
@@ -14,6 +15,20 @@ final class Booking
     private int $courtUnitId
   ) {
     $this->status = BookingStatus::Pending;
+  }
+
+  public function setId(int $id): void
+  {
+    $this->id = $id;
+  }
+
+  public function id(): int
+  {
+    if ($this->id === null) {
+      throw new \LogicException('Booking ID is not set');
+    }
+
+    return $this->id;
   }
 
   public function addSlot(int $price): void

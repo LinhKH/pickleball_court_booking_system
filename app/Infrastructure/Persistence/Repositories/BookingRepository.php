@@ -43,6 +43,9 @@ class BookingRepository
       courtUnitId: $model->court_unit_id
     );
 
+    // 🔑 GẮN ID
+    $booking->setId($model->id);
+
     // sync state
     $this->syncStatus($booking, $model->status);
 
@@ -89,14 +92,34 @@ class BookingRepository
   /**
    * Get pending bookings that should be expired
    */
-  public function getExpiredPending(): Collection
+  public function getExpiredPending(): array
   {
-    $expireBefore = Carbon::now()->subMinutes(5);
-
-    return BookingModel::query()
-      ->where('status', BookingStatus::Pending->value)
-      ->where('created_at', '<=', $expireBefore)
+    $expireBefore = BookingModel::where('status', 'pending')
+      ->where('created_at', '<=', now()->subMinutes(5))
       ->get();
+
+    return $expireBefore->map(function ($model) {
+      $booking = new \App\Domain\Booking\Booking(
+        userId: $model->user_id,
+        courtId: $model->court_id,
+        courtUnitId: $model->court_unit_id
+      );
+
+      $booking->setId($model->id);
+
+      // sync state
+      if ($model->status === 'pending') {
+        // nothing
+      }
+
+      // sync price
+      $reflection = new \ReflectionClass($booking);
+      $prop = $reflection->getProperty('totalPrice');
+      $prop->setAccessible(true);
+      $prop->setValue($booking, (int) $model->total_price);
+
+      return $booking;
+    })->all();
   }
 
   /* ============================================================

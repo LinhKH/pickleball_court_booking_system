@@ -14,11 +14,27 @@ return new class extends Migration
   {
     Schema::create('booking_slots', function (Blueprint $table) {
       $table->id();
-      $table->foreignId('booking_id')->constrained()->cascadeOnDelete();
-      $table->foreignId('court_slot_id')->constrained()->cascadeOnDelete();
-      $table->decimal('price', 10, 2);
 
-      $table->unique('court_slot_id');
+      $table->foreignId('booking_id')
+        ->constrained()
+        ->cascadeOnDelete();
+
+      $table->foreignId('court_unit_id')
+        ->constrained()
+        ->cascadeOnDelete();
+
+      $table->date('date');
+      $table->time('start_time');
+      $table->integer('price');
+
+      $table->timestamps();
+
+      $table->unique([
+        'booking_id',
+        'court_unit_id',
+        'date',
+        'start_time',
+      ]);
     });
   }
 
