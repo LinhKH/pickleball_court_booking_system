@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AvailabilityController as ApiAvailabilityController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,5 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::get('/courts/{court}/slots', [SlotController::class, 'index']);
 
 Route::get('/courts/{court}/availability', [AvailabilityController::class, 'index']);
+
+Route::get('/v1/availability', [ApiAvailabilityController::class, 'index']);
